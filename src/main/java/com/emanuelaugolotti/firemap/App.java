@@ -1,15 +1,12 @@
 package com.emanuelaugolotti.firemap;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingNode;
 import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -32,13 +29,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.List;
 
 public class App extends Application {
 
     static String getData() {
         try (HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build()) {
-            URI uri = new URI("https://firms.modaps.eosdis.nasa.gov/api/area/csv/5b19bedf728592a1122d5fee8386e778/VIIRS_SNPP_NRT/world/2");
+            URI uri = new URI("https://firms.modaps.eosdis.nasa.gov/api/area/csv/5b19bedf728592a1122d5fee8386e778/VIIRS_SNPP_NRT/world/1");
             HttpRequest request = HttpRequest.newBuilder().uri(uri).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             //System.out.println(response.statusCode());
@@ -111,11 +107,10 @@ public class App extends Application {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-
                 JXMapViewer mapViewer = new JXMapViewer();
 
                 // Create a TileFactoryInfo for OpenStreetMap
-                //TileFactoryInfo info = new OSMTileFactoryInfo();
+                // TileFactoryInfo info = new OSMTileFactoryInfo();
                 TileFactoryInfo info = new TracestrackTileFactoryInfo();
                 DefaultTileFactory tileFactory = new DefaultTileFactory(info);
                 mapViewer.setTileFactory(tileFactory);
@@ -125,15 +120,15 @@ public class App extends Application {
 
                 mapViewer.setZoom(18);
 
-                //Set the focus map on center
+                // Set the focus map on center when opening the map
                 GeoPosition center = new GeoPosition(10.258220082499857, 25.346508274383453);
                 mapViewer.setAddressLocation(center);
 
 
                 // Add interactions
-                MouseInputListener mia = new PanMouseInputListener(mapViewer);
-                mapViewer.addMouseListener(mia);
-                mapViewer.addMouseMotionListener(mia);
+                MouseInputListener mouseInputListener = new PanMouseInputListener(mapViewer);
+                mapViewer.addMouseListener(mouseInputListener);
+                mapViewer.addMouseMotionListener(mouseInputListener);
 
                 mapViewer.addMouseListener(new CenterMapListener(mapViewer));
 
@@ -142,15 +137,16 @@ public class App extends Application {
                 mapViewer.addKeyListener(new PanKeyListener(mapViewer));
 
                 // Create a waypoint painter that takes all the waypoints
-                WaypointPainter<Waypoint> painter = new WaypointPainter<>();
+                WaypointPainter<FireWaypoint> painter = new WaypointPainter<>();
                 painter.setWaypoints(fires);
 
 //                RepeatingWaypointPainter<Waypoint> painter = new RepeatingWaypointPainter<>();
 //                painter.setWaypoints(fires);
 
+
                 mapViewer.setOverlayPainter(painter);
 
-                painter.setRenderer(new MyWaypointRenderer());
+                painter.setRenderer(new FireWaypointRenderer());
 
                 // Add a selection painter
 //                SelectionAdapter sa = new SelectionAdapter(mapViewer);
@@ -164,13 +160,49 @@ public class App extends Application {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         Point clickPoint = e.getPoint();
-                        for (Waypoint waypoint : fires) {
-                            Point2D waypointPoint = mapViewer.convertGeoPositionToPoint((waypoint).getPosition());
+                        for (FireWaypoint waypoint : fires) {
+                            Point2D waypointPoint = mapViewer.convertGeoPositionToPoint(waypoint.getPosition());
 
                             if (waypointPoint.distance(clickPoint) < 10) { // Adjust threshold as needed
-                                // Show tooltip
+
+                                String[][] data = {
+                                        {
+                                                Double.toString(waypoint.getPosition().getLatitude()),
+                                                Double.toString(waypoint.getPosition().getLongitude()),
+                                                waypoint.getAcqusitionTime().toString(),
+                                                waypoint.getInstrument(),
+                                                waypoint.getConfidence(),
+                                                Double.toString(waypoint.getFrp()),
+                                                Character.toString(waypoint.getDaynight())
+                                        },
+                                };
+
+                                String[] columnNames = {"LATITUDE", "LONGITUDE", "ACQUIRE TIME", "INSTRUMENT", "CONFIDENCE", "FRP", "DAYNIGHT"};
+
+                                JTable table = new JTable(data, columnNames);
+                                table.setEnabled(false); // Make the table non-editable
+
+                                // Disable column reordering
+                                table.getTableHeader().setReorderingAllowed(false);
+
+                                // Disable sorting
+                                table.setAutoCreateRowSorter(false);
+
+                                // Optionally, disable cell, row, and column selection
+                                table.setCellSelectionEnabled(false);
+                                table.setRowSelectionAllowed(false);
+                                table.setColumnSelectionAllowed(false);
+
+                                // Wrap the table in a JScrollPane
+                                JScrollPane scrollPane = new JScrollPane(table);
+                                scrollPane.setPreferredSize(new Dimension(750, 55));
+
+
                                 JPopupMenu tooltip = new JPopupMenu();
-                                tooltip.add(new JLabel("Waypoint: " + (waypoint).getPosition().toString()));
+//                                tooltip.add(new JLabel("Waypoint: " + (waypoint).getPosition().toString()));
+//                                tooltip.add(new JLabel("Confidence: " + (waypoint).getConfidence()));
+
+                                tooltip.add(scrollPane);
                                 tooltip.show(mapViewer, e.getX(), e.getY());
                                 break;
                             }

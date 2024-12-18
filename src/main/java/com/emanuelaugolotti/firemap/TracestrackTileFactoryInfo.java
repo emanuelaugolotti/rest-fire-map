@@ -4,13 +4,13 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 
 public class TracestrackTileFactoryInfo extends TileFactoryInfo {
 
-    //Utilizzata una mappa alternativa a quella di default della libreria presa da un server di mappe, chiamato tracestrack
+    // Utilizzata una mappa alternativa a quella di default della libreria presa da un server di mappe, chiamato tracestrack
     public TracestrackTileFactoryInfo() {
         this("tracetrack", "https://tile.tracestrack.com");
     }
 
     public TracestrackTileFactoryInfo(String name, String baseURL) {
-        super(name, 0, 19, 19, 512, true, true, baseURL, "x", "y", "z");
+        super(name, 0, 18, 19, 512, true, true, baseURL, "x", "y", "z");
     }
 
     @Override

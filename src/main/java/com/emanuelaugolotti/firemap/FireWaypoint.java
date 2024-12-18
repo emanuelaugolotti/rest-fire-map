@@ -7,6 +7,8 @@ import java.util.Objects;
 
 // A waypoint that identifies a fire with its data in the map
 public class FireWaypoint extends DefaultWaypoint {
+    // Classe che contiene i dati di un incendio sulla mappa
+
     private LocalDateTime acqusitionTime;   // data e ora di acquisizione dell'incendio
     private double frp;     // Potenza in mega watt dell'incendio
     private char daynight; // D = Fuoco diurno, N = Fuoco notturno
