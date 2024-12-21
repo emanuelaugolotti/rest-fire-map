@@ -1,5 +1,6 @@
-package com.emanuelaugolotti.firemap;
+package com.emanuelaugolotti.firemap.map;
 
+import com.emanuelaugolotti.firemap.rest.FireWaypoint;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.WaypointRenderer;
 

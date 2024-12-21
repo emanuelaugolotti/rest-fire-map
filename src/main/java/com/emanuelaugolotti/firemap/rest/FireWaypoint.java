@@ -1,4 +1,4 @@
-package com.emanuelaugolotti.firemap;
+package com.emanuelaugolotti.firemap.rest;
 
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.emanuelaugolotti.firemap;
+package com.emanuelaugolotti.firemap.map;
 
 import org.jxmapviewer.viewer.TileFactoryInfo;
 

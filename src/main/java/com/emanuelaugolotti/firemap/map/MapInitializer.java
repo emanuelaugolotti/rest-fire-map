@@ -1,5 +1,6 @@
-package com.emanuelaugolotti.firemap;
+package com.emanuelaugolotti.firemap.map;
 
+import com.emanuelaugolotti.firemap.rest.FireWaypoint;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -24,7 +25,10 @@ public class MapInitializer implements Runnable {       // il metodo run() di Ma
 
     private final String tracestrackKey;
 
-    public MapInitializer(Set<FireWaypoint> fires, SwingNode swingNode, String tracestrackKey) {
+    private final JXMapViewer jxMapViewer;  // è un oggetto che permette di visualizzare la mappa e interagire con essa
+
+    public MapInitializer(JXMapViewer jxMapViewer, Set<FireWaypoint> fires, SwingNode swingNode, String tracestrackKey) {
+        this.jxMapViewer = jxMapViewer;
         this.fires = fires;
         this.swingNode = swingNode;
         this.tracestrackKey = tracestrackKey;
@@ -32,13 +36,12 @@ public class MapInitializer implements Runnable {       // il metodo run() di Ma
 
     @Override
     public void run() {
-        JXMapViewer mapViewer = new JXMapViewer();  // creo un oggetto che permette di visualizzare la mappa e interagire con essa
-        setTilesSource(mapViewer);
-        setFocusPointAndZoom(mapViewer, 18);    // Set the focus map on center and set zoom when opening the map
-        setInteractions(mapViewer);
-        setWaypointPainter(mapViewer);
-        configureWaypointInformationTable(mapViewer);
-        swingNode.setContent(mapViewer);    // inserisco la componente swing dentro allo swing node
+        setTilesSource(jxMapViewer);
+        setFocusPointAndZoom(jxMapViewer, 18);    // Set the focus map on center and set zoom when opening the map
+        setInteractions(jxMapViewer);
+        setWaypointPainter(jxMapViewer);
+        configureWaypointInformationTable(jxMapViewer);
+        swingNode.setContent(jxMapViewer);    // inserisco la componente swing dentro allo swing node
     }
 
     private void setTilesSource(JXMapViewer mapViewer) {        // metodo che configura le tiles della mappa

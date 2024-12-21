@@ -1,4 +1,6 @@
-package com.emanuelaugolotti.firemap;
+package com.emanuelaugolotti.firemap.rest;
+
+import com.emanuelaugolotti.firemap.rest.FireWaypoint;
 
 import java.net.URI;
 import java.net.URISyntaxException;
