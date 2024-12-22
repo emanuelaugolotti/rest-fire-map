@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import org.jxmapviewer.JXMapViewer;
-
 import javax.swing.*;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ public class MapController {
     public void initialize() {
         // codice eseguito dal thread di javafx
         NasaDataReader nasaDataReader = new NasaDataReader("5b19bedf728592a1122d5fee8386e778");
-        Set<FireWaypoint> fires = nasaDataReader.getData(1, "world", "VIIRS_SNPP_NRT");
+        Set<FireWaypoint> fires = nasaDataReader.getData(2, "world", "VIIRS_SNPP_NRT");
 
         final SwingNode swingNode = new SwingNode();    // creazione dello swing node
 
@@ -44,11 +43,9 @@ public class MapController {
 
     private void ZoomIn(JXMapViewer jxMapViewer) {
         SwingUtilities.invokeLater(() -> jxMapViewer.setZoom(jxMapViewer.getZoom() - 1));
-        //jxMapViewer.setZoom(jxMapViewer.getZoom() - 1);
     }
 
     private void ZoomOut(JXMapViewer jxMapViewer) {
         SwingUtilities.invokeLater(() -> jxMapViewer.setZoom(jxMapViewer.getZoom() + 1));
-        //jxMapViewer.setZoom(jxMapViewer.getZoom() + 1);
     }
 }

@@ -2,14 +2,13 @@ package com.emanuelaugolotti.firemap.map;
 
 import com.emanuelaugolotti.firemap.rest.FireWaypoint;
 import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.WaypointPainter;
 import javafx.embed.swing.SwingNode;
-
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -37,7 +36,7 @@ public class MapInitializer implements Runnable {       // il metodo run() di Ma
     @Override
     public void run() {
         setTilesSource(jxMapViewer);
-        setFocusPointAndZoom(jxMapViewer, 18);    // Set the focus map on center and set zoom when opening the map
+        setFocusPointAndZoom(jxMapViewer, 17);    // Set the focus map on center and set zoom when opening the map
         setInteractions(jxMapViewer);
         setWaypointPainter(jxMapViewer);
         configureWaypointInformationTable(jxMapViewer);
@@ -45,8 +44,9 @@ public class MapInitializer implements Runnable {       // il metodo run() di Ma
     }
 
     private void setTilesSource(JXMapViewer mapViewer) {        // metodo che configura le tiles della mappa
-        DefaultTileFactory defaultTileFactory = new DefaultTileFactory(new TracestrackTileFactoryInfo(tracestrackKey));
-        defaultTileFactory.setThreadPoolSize(8);     // Use 8 threads in parallel to load the tiles
+        //TileFactoryInfo tileFactoryInfo = new TracestrackTileFactoryInfo(tracestrackKey);
+        TileFactoryInfo tileFactoryInfo = new ArcGisTileFactoryInfo();
+        DefaultTileFactory defaultTileFactory = new DefaultTileFactory(tileFactoryInfo);
         mapViewer.setTileFactory(defaultTileFactory);
     }
 
@@ -60,7 +60,6 @@ public class MapInitializer implements Runnable {       // il metodo run() di Ma
         MouseInputListener mouseInputListener = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mouseInputListener);
         mapViewer.addMouseMotionListener(mouseInputListener);
-        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
     }
 

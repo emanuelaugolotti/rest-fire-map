@@ -1,7 +1,5 @@
 package com.emanuelaugolotti.firemap.rest;
 
-import com.emanuelaugolotti.firemap.rest.FireWaypoint;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;

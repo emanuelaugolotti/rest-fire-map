@@ -3,7 +3,6 @@ package com.emanuelaugolotti.firemap.map;
 import com.emanuelaugolotti.firemap.rest.FireWaypoint;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.WaypointRenderer;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 

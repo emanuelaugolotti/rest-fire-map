@@ -13,7 +13,7 @@ public class TracestrackTileFactoryInfo extends TileFactoryInfo {
     }
 
     public TracestrackTileFactoryInfo(String name, String baseURL, String key) {
-        super(name, 0, 18, 19, 512, true, true, baseURL, "x", "y", "z");
+        super(name, 5, 18, 19, 512, true, true, baseURL, "x", "y", "z");
         this.key = key;
     }
 
