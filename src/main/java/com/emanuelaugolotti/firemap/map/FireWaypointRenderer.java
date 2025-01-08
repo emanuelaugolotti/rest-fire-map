@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class FireWaypointRenderer implements WaypointRenderer<FireWaypoint> {
-    // Classe che serve per determinare come un incendio appare fisicamente sulla mappa
 
     private final Color black = Color.decode("#120203");
     private final Color red = Color.decode("#D61921");
@@ -39,11 +38,11 @@ public class FireWaypointRenderer implements WaypointRenderer<FireWaypoint> {
     }
 
     private Color getFrpColor(double frp) {
-        if (frp <= 50) {       // low intensity fires
+        if (frp <= 50) {
             return red;
-        } else if (frp <= 500) {    // medium intensity fires
+        } else if (frp <= 500) {
             return orange;
-        } else {  // most intense fires
+        } else {
             return yellow;
         }
     }

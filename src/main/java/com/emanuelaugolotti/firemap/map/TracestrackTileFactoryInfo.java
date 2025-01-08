@@ -3,9 +3,6 @@ package com.emanuelaugolotti.firemap.map;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
 public class TracestrackTileFactoryInfo extends TileFactoryInfo {
-    // Questa classe spiega dove andare a prendere le immagini tiles della mappa
-    // Utilizzata una mappa alternativa a quella di default della libreria presa da un server di mappe, chiamato tracestrack
-
     private final String key;
 
     public TracestrackTileFactoryInfo(String key) {

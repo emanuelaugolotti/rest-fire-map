@@ -25,8 +25,6 @@ public class NasaDataReader {
     }
 
     public Set<FireWaypoint> getData(int dayRange, String area, String source) {
-        //HttpClient è una classe che permette di chiamare delle API rest, lo metto dentro alle parentesi tonde del
-        //try-catch per evitare la perdita di risorse
 
         try (HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build()) {
             URI uri = getUri(dayRange, area, source);
@@ -42,7 +40,6 @@ public class NasaDataReader {
     }
 
     private LocalDateTime parseAcquisitionTime(LocalDate date, String timeString) {
-        //funzione per trasformare l'ora nel formato giusto, ritorna un LocalDateTime
 
         int numberOfZero = 4 - timeString.length();
         StringBuilder sb = new StringBuilder();

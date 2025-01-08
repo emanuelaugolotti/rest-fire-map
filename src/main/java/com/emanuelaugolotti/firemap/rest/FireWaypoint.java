@@ -4,15 +4,13 @@ import org.jxmapviewer.viewer.DefaultWaypoint;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-// A waypoint that identifies a fire with its data in the map
 public class FireWaypoint extends DefaultWaypoint {
-    // Classe che contiene i dati di un incendio sulla mappa
 
-    private final LocalDateTime acquisitionTime;   // data e ora di acquisizione dell'incendio
-    private final double frp;     // Potenza in mega watt dell'incendio
-    private final char dayNight; // D = Fuoco diurno, N = Fuoco notturno
-    private final String instrument;  // tipologia del sensore che ha fatto la rilevazione dell'incendio
-    private final String confidence;  // probabilità che l'incendio sia veritiero
+    private final LocalDateTime acquisitionTime;
+    private final double frp;
+    private final char dayNight;
+    private final String instrument;
+    private final String confidence;
 
     public FireWaypoint(double latitude, double longitude, LocalDateTime acquisitionTime, double frp, char dayNight,
                         String instrument, String confidence) {

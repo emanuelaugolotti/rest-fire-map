@@ -16,7 +16,7 @@ public class App extends Application {
 
         stage.setTitle("Fire Map");
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("logo.png"))));
-        stage.setScene(scene);  // inserimento della scena dentro allo stage
+        stage.setScene(scene);
         stage.show();
     }
 
